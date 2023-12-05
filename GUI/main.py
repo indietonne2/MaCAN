@@ -1,6 +1,6 @@
 # main.py
 import tkinter as tk
-from version import __version__, __author__
+from version import version, author
 
 class MaCANApp(tk.Tk):
     def __init__(self):
