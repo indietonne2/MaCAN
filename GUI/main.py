@@ -22,19 +22,22 @@ class MaCANApp(tk.Tk):
         # Creating a menu bar
         self.menu_bar = tk.Menu(self)
         self.config(menu=self.menu_bar)
+        print("creating menu bar")
 
         # Creating a file menu with an exit option
         file_menu = tk.Menu(self.menu_bar, tearoff=0)
         file_menu.add_command(label="Exit", command=self.quit)
         self.menu_bar.add_cascade(label="File", menu=file_menu)
+        print("creating file menu")
 
         # Creating a status bar to display the author information
         self.status_bar = tk.Label(self, text=f"Developed by {author}", bd=1, relief=tk.SUNKEN, anchor=tk.W)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
-
+        print("creating status bar")
         # Creating the main content area as a text widget
         self.main_content = tk.Text(self)
         self.main_content.pack(fill=tk.BOTH, expand=True)
+        print("status bar created")
 
 if __name__ == "__main__":
     # Debugging print statement
