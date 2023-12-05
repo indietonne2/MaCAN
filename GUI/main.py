@@ -1,10 +1,12 @@
 # main.py
+# Main entry point for the MaCAN GUI application
 import tkinter as tk
 from os import name
 from tkinter import Tk
 
 from version import version, author
 from version import app_name, version, author
+
 
 class MaCANApp(tk.Tk):
     def __init__(self):
