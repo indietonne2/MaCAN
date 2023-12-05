@@ -41,6 +41,13 @@ class MaCANApp(tk.Tk):
         self.main_content.pack(fill=tk.BOTH, expand=True)
         print("status bar created")
 
+        root: Tk = tk.Tk()
+        root.title("Test Window")
+        label = tk.Label(root, text="Hello, Tkinter!")
+        label.pack()
+        root.mainloop()
+
+
 if __name__ == "__main__":
     # Debugging print statement
     print("Starting MaCANApp")
