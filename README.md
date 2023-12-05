@@ -26,13 +26,13 @@ Currently in the development phase. Contributions and feedback are welcome!
 For more information, installation, and usage, please visit our documentation page.
 
 Note: This is an open-source project and is under a corresponding license. Details can be found in the license file in the repository.
-Deutsch:
-GUI Based CAN-Bus Simulator
 
-CAN-Bus GUI Simulator
+
+Deutsch:
+MaCAN. Ein CAN-Bus GUI Simulator
 
 Kurzbeschreibung
-Der CAN-Bus GUI Simulator ist ein vielseitiges Tool für die Simulation, Analyse und Diagnose von CAN-Bus-Netzwerken. Es bietet eine intuitive grafische Benutzeroberfläche (GUI) und ist kompatibel mit sowohl Hardware- als auch Software-CAN-Bus-Simulatoren. Kernfunktionalitäten beinhalten die Integration eines selbstgebauten Arduino-basierten CAN-Bus Simulators, Echtzeit-Datenanalyse, Fehlerdiagnose und die Erstellung anpassbarer Szenarien.
+Der MaCAN CAN-Bus GUI Simulator ist ein vielseitiges Tool für die Simulation, Analyse und Diagnose von CAN-Bus-Netzwerken. Es bietet eine intuitive grafische Benutzeroberfläche (GUI) und ist kompatibel mit sowohl Hardware- als auch Software-CAN-Bus-Simulatoren. Kernfunktionalitäten beinhalten die Integration eines selbstgebauten Arduino-basierten CAN-Bus Simulators, Echtzeit-Datenanalyse, Fehlerdiagnose und die Erstellung anpassbarer Szenarien.
 
 Hauptmerkmale
 Benutzerfreundliche GUI: Einfache Einrichtung, Überwachung und Analyse von CAN-Bus-Netzwerken.
