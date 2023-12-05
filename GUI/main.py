@@ -29,7 +29,7 @@ class MaCANApp(tk.Tk):
         self.menu_bar.add_cascade(label="File", menu=file_menu)
 
         # Creating a status bar to display the author information
-        self.status_bar = tk.Label(self, text=f"Developed by {__author__}", bd=1, relief=tk.SUNKEN, anchor=tk.W)
+        self.status_bar = tk.Label(self, text=f"Developed by {author}", bd=1, relief=tk.SUNKEN, anchor=tk.W)
         self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Creating the main content area as a text widget
