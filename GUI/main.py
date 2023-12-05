@@ -1,5 +1,6 @@
 # main.py
 import tkinter as tk
+from os import name
 from tkinter import Tk
 
 from version import version, author
@@ -48,7 +49,7 @@ class MaCANApp(tk.Tk):
         root.mainloop()
 
 
-if __name__ == "__main__":
+if name == "main":
     # Debugging print statement
     print("Starting MaCANApp")
 
