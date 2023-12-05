@@ -1,6 +1,7 @@
 # main.py
 import tkinter as tk
 from version import version, author
+from version import app_name, version, author
 
 class MaCANApp(tk.Tk):
     def __init__(self):
@@ -9,9 +10,8 @@ class MaCANApp(tk.Tk):
         # Debugging print statement
         print("Initializing MaCANApp")
 
-        # Setting the window title with the version number
-        self.title(f"MaCAN - v{__version__}")
-
+        # Setting the window title with the app name and version number
+        self.title(f"{app_name} - v{version}")
         # Call to create widgets for the GUI
         self.create_widgets()
 
