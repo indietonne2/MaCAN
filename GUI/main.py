@@ -48,4 +48,10 @@ if __name__ == "__main__":
     print("Exiting MaCANApp")  # Thi
     print("pycharm does not support using tk without a mainloop")
     # https://stackoverflow.com/questions/51253078/tkinter-isnt-working-with-pycharm" s line will execute after closing the window. Regular python shell and IDLE supports using tk without a mainloop. This is done by several hooks, installed when a tkapp object is being initialized, which handles Tk events while the shell is waiting for user input. However pycharm does not support this. So inorder to diplay your window using pycharm, you have to call
+    import tkinter as tk
+
+    root = tk.Tk()
+    root.title("Test Window")
+    label = tk.Label(root, text="Hello, Tkinter!")
+    label.pack()
     root.mainloop()
