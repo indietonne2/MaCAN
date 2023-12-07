@@ -1,6 +1,6 @@
 # Importing necessary libraries from PySide6
 import sys
-import PySide6.QtWidgets
+import PySide6
 from PySide6.QtCore import QRect
 from PySide6.QtGui import QAction
 
@@ -9,6 +9,23 @@ from version import app_name, version, author
 
 
 class MaCANApp(PySide6.QtWidgets.QMainWindow):
+    """
+
+    This class represents the main application window for MaCANApp.
+
+    Methods:
+        - __init__(self): Initializes the MaCANApp instance.
+        - create_widgets(self): Creates and configures the widgets for the GUI.
+
+    Attributes:
+        - main_content: Represents the main content area of the application as a QTextEdit widget.
+
+    Example usage:
+
+        app = MaCANApp()
+        app.show()
+
+    """
     def __init__(self):
         super().__init__()
 
@@ -23,7 +40,7 @@ class MaCANApp(PySide6.QtWidgets.QMainWindow):
         self.create_widgets()
 
     def create_widgets(self):
-        # Debugging print statement
+        # Debugging print statementpip install PySide6
         print("Creating widgets")
 
         # Creating a menu bar
