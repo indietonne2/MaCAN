@@ -13,7 +13,7 @@ app = QtWidgets.QApplication(sys.argv)
 # Create a Window
 mywindow = QtWidgets.QWidget()
 mywindow.resize(600, 800)
-mywindow.setWindowTitle(version.app_name)
+mywindow.setWindowTitle(f"{version.app_name} {version.version}")
 
 # Create a label and display it all together
 mylabel = QtWidgets.QLabel(mywindow)
