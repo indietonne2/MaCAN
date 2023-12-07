@@ -7,11 +7,13 @@ from PySide6.QtGui import QAction
 # Importing version information
 from version import app_name, version, author
 
+
 class MaCANApp(PySide6.QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
         # Debugging print statement
+        self.main_content = None
         print("Initializing MaCANApp")
 
         # Setting the window title with the app name and version number
