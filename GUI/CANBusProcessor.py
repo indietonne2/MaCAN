@@ -1,3 +1,8 @@
+import can
+
+from GUI import CANBusConnector
+
+
 class CANBusProcessor:
     def __init__(self, connector: CANBusConnector):
         self.connector = connector

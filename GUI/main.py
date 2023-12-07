@@ -1,8 +1,7 @@
 # Importing necessary libraries from PySide6
 import sys
 import PySide6
-from PySide6.QtCore import QRect
-from PySide6.QtGui import QAction
+
 
 # Importing version information
 from version import app_name, version, author

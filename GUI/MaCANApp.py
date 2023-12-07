@@ -1,3 +1,14 @@
+import self
+
+from GUI import version
+from GUI.CANBusConnector import CANBusConnector
+from GUI.version import app_name
+
+
+class MaCANAppGui:
+    pass
+
+
 class MaCANApp(MaCANAppGui):
     def __init__(self, master=None):
         super().__init__(master)
