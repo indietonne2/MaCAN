@@ -1,12 +1,12 @@
 # Importing necessary libraries from PySide6
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QMenuBar, QAction, QStatusBar
+import PySide6.QtWidgets
 from PySide6.QtCore import QRect
 
 # Importing version information
 from version import app_name, version, author
 
-class MaCANApp(QMainWindow):
+class MaCANApp(PySide6.QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -33,12 +33,12 @@ class MaCANApp(QMainWindow):
         file_menu.addAction(exit_action)
 
         # Creating a status bar to display the author information
-        status_bar = QStatusBar()
+        status_bar = PySide6.QtWidgets.QStatusBar()
         status_bar.showMessage(f"Developed by {author}")
         self.setStatusBar(status_bar)
 
         # Creating the main content area as a text widget
-        self.main_content = QTextEdit(self)
+        self.main_content = PySide6.QtWidgets.QTextEdit(self)
         self.main_content.setGeometry(QRect(10, 30, 780, 560))
 
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Debugging print statement
     print("Starting MaCANApp")
 
-    app = QApplication(sys.argv)
+    app = PySide6.QtWidgets.QApplication(sys.argv)
     mainWin = MaCANApp()
     mainWin.resize(800, 600)
     mainWin.show()
