@@ -2,6 +2,7 @@
 import sys
 import PySide6.QtWidgets
 from PySide6.QtCore import QRect
+from PySide6.QtGui import QAction
 
 # Importing version information
 from version import app_name, version, author
