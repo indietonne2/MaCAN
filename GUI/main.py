@@ -1,14 +1,12 @@
-# main.py
-# Main entry point for the MaCAN GUI application
-import tkinter as tk
-from os import name
-from tkinter import Tk
+# Importing necessary libraries from PySide6
+import sys
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QTextEdit, QMenuBar, QAction, QStatusBar
+from PySide6.QtCore import QRect
 
-from version import version, author
+# Importing version information
 from version import app_name, version, author
 
-
-class MaCANApp(tk.Tk):
+class MaCANApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
@@ -16,7 +14,8 @@ class MaCANApp(tk.Tk):
         print("Initializing MaCANApp")
 
         # Setting the window title with the app name and version number
-        self.title(f"{app_name} - v{version}")
+        self.setWindowTitle(f"{app_name} - v{version}")
+
         # Call to create widgets for the GUI
         self.create_widgets()
 
@@ -25,40 +24,31 @@ class MaCANApp(tk.Tk):
         print("Creating widgets")
 
         # Creating a menu bar
-        self.menu_bar = tk.Menu(self)
-        self.config(menu=self.menu_bar)
-        print("creating menu bar")
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu('&File')
 
         # Creating a file menu with an exit option
-        file_menu = tk.Menu(self.menu_bar, tearoff=0)
-        file_menu.add_command(label="Exit", command=self.quit)
-        self.menu_bar.add_cascade(label="File", menu=file_menu)
-        print("creating file menu")
+        exit_action = QAction('&Exit', self)
+        exit_action.triggered.connect(self.close)
+        file_menu.addAction(exit_action)
 
         # Creating a status bar to display the author information
-        self.status_bar = tk.Label(self, text=f"Developed by {author}", bd=1, relief=tk.SUNKEN, anchor=tk.W)
-        self.status_bar.pack(side=tk.BOTTOM, fill=tk.X)
-        print("creating status bar")
+        status_bar = QStatusBar()
+        status_bar.showMessage(f"Developed by {author}")
+        self.setStatusBar(status_bar)
+
         # Creating the main content area as a text widget
-        self.main_content = tk.Text(self)
-        self.main_content.pack(fill=tk.BOTH, expand=True)
-        print("status bar created")
+        self.main_content = QTextEdit(self)
+        self.main_content.setGeometry(QRect(10, 30, 780, 560))
 
 
-
-if name == "main":
+if __name__ == "__main__":
     # Debugging print statement
     print("Starting MaCANApp")
 
-    app = MaCANApp()
-    app.mainloop()
-    print("Exiting MaCANApp")  # Thi
-    print("pycharm does not support using tk without a mainloop")
-    # https://stackoverflow.com/questions/51253078/tkinter-isnt-working-with-pycharm" s line will execute after closing the window. Regular python shell and IDLE supports using tk without a mainloop. This is done by several hooks, installed when a tkapp object is being initialized, which handles Tk events while the shell is waiting for user input. However pycharm does not support this. So inorder to diplay your window using pycharm, you have to call
-    import tkinter as tk
+    app = QApplication(sys.argv)
+    mainWin = MaCANApp()
+    mainWin.resize(800, 600)
+    mainWin.show()
 
-    root: Tk = tk.Tk()
-    root.title("Test Window")
-    label = tk.Label(root, text="Hello, Tkinter!")
-    label.pack()
-    root.mainloop()
+    sys.exit(app.exec())
