@@ -1,11 +1,9 @@
 import sys
 import os
-import configparser
 from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QLineEdit
-from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
+from PySide6.QtGui import QColor, QPixmap, QPainter
 from PySide6.QtCore import Qt
-
-# Import MenuBar from the menu_bar.py file
+from config import Config
 from menu_bar import MenuBar
 
 class BackgroundWidget(QWidget):
@@ -15,7 +13,7 @@ class BackgroundWidget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setOpacity(0.5)  # Set transparency
+        painter.setOpacity(0.2)  # Set transparency
         pixmap_rect = self.pixmap.rect()
         target_rect = self.rect()
         pixmap_rect.moveCenter(target_rect.center())  # Center the background image
@@ -25,35 +23,15 @@ class BackgroundWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.parameter_config = configparser.ConfigParser()
-        self.mode_config = configparser.ConfigParser()
-        self.read_parameter_config()
+        self.config = Config()
+        self.parameter_config = self.config.read_parameter_config()
         self.initUI()
-        self.read_mode_config()
+        selected_mode = self.config.read_mode_config()
+        self.handle_mode_selection(selected_mode)
 
         # Create an instance of MenuBar and add it to the main window
         self.menu_bar = MenuBar(self)
         self.addToolBar(self.menu_bar.tool_bar)
-
-    def read_parameter_config(self):
-        self.parameter_config.read('parameter.cfg')
-        return self.parameter_config['Modus']
-
-    def read_mode_config(self):
-        self.mode_config.read('mode.cfg')
-        selected_mode = self.mode_config.get('selected mode', 'mode', fallback=None)
-        if selected_mode and selected_mode.upper() in self.parameter_config['Modus']:
-            self.combo_box.setCurrentText(selected_mode.lower())
-            self.update_color_bar_and_text(selected_mode.lower())
-        else:
-            first_mode = next(iter(self.parameter_config['Modus']))
-            self.combo_box.setCurrentText(first_mode.lower())
-            self.update_color_bar_and_text(first_mode.lower())
-
-    def write_mode_config(self, mode):
-        self.mode_config['selected mode'] = {'mode': mode.upper()}
-        with open('mode.cfg', 'w') as configfile:
-            self.mode_config.write(configfile)
 
     def initUI(self):
         self.setWindowTitle("Modus Auswahl")
@@ -87,11 +65,11 @@ class MainWindow(QMainWindow):
         main_layout.insertWidget(0, self.background_widget)
 
     def fill_combo_box(self):
-        for key in self.parameter_config['Modus']:
+        for key in self.parameter_config:
             self.combo_box.addItem(key.lower())
 
     def update_color_bar_and_text(self, text):
-        color_name = self.parameter_config['Modus'].get(text.upper(), "Rot")
+        color_name = self.parameter_config.get(text.upper(), "Rot")
         color_map = {
             "Rot": QColor(255, 0, 0),
             "Grün": QColor(0, 255, 0),
@@ -106,6 +84,15 @@ class MainWindow(QMainWindow):
     def is_color_dark(self, color: QColor):
         luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
         return luminance < 0.5
+
+    def handle_mode_selection(self, selected_mode):
+        if selected_mode and selected_mode.upper() in self.parameter_config:
+            self.combo_box.setCurrentText(selected_mode.lower())
+            self.update_color_bar_and_text(selected_mode.lower())
+        else:
+            first_mode = next(iter(self.parameter_config))
+            self.combo_box.setCurrentText(first_mode.lower())
+            self.update_color_bar_and_text(first_mode.lower())
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
