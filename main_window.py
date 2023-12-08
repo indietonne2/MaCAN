@@ -2,11 +2,22 @@ import sys
 import os
 import configparser
 from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QTextEdit
-from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
+from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent, QPalette, QBrush
 from PySide6.QtCore import Qt
 
 # Importieren Sie MenuBar von der menu_bar.py Datei
 from menu_bar import MenuBar
+
+class BackgroundWidget(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.pixmap = QPixmap(os.path.join('resources', 'background.png'))
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setOpacity(0.5)  # Setzen der Transparenz
+        painter.drawPixmap(self.rect(), self.pixmap)
+        painter.end()
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -45,8 +56,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
+        # Hintergrund-Widget
+        self.background_widget = BackgroundWidget(self)
+        self.setCentralWidget(self.background_widget)
+
         # Haupt-Layout
-        main_layout = QVBoxLayout()
+        main_layout = QVBoxLayout(self.background_widget)
 
         # Farbbalken
         self.color_bar = QLabel(self)
@@ -63,14 +78,6 @@ class MainWindow(QMainWindow):
         # TextEdit-Widget für Textbearbeitung
         self.text_edit = QTextEdit()
         main_layout.addWidget(self.text_edit)
-
-        # Zentrales Widget setzen
-        central_widget = QWidget()
-        central_widget.setLayout(main_layout)
-        self.setCentralWidget(central_widget)
-
-        # Hintergrundbild
-        self.update_background_image()
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
@@ -93,22 +100,8 @@ class MainWindow(QMainWindow):
         luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
         return luminance < 0.5
 
-    def update_background_image(self):
-        pixmap = QPixmap(os.path.join('resources', 'background.png'))
-        painter = QPainter(pixmap)
-        painter.setOpacity(0.5)
-        painter.drawPixmap(pixmap.rect(), pixmap)
-        painter.end()
-        self.background_image = QLabel(self)
-        self.background_image.setPixmap(pixmap)
-        self.background_image.setGeometry(0, self.color_bar.height(), self.width(), self.height() - self.color_bar.height())
-
-    def resizeEvent(self, event: QPaintEvent):
-        self.update_background_image()
-        super().resizeEvent(event)
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit
+    sys.exit(app.exec())
