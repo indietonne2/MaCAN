@@ -1,7 +1,7 @@
 import logging
 import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, \
-    QLineEdit
+    QLineEdit, QMessageBox
 from PySide6.QtGui import QAction  # QAction is part of QtGui
 import version
 import logging
@@ -46,14 +46,14 @@ class MenuBar:
     def create_help_menu(self, window):
         help_button = QToolButton(self.tool_bar)
         help_button.setText('Help')
-        help_menu = QMenu(help_button)  # define help_menu here
+        help_menu = QMenu(help_button)
         help_button.setMenu(help_menu)
         help_button.setPopupMode(QToolButton.InstantPopup)
         self.tool_bar.addWidget(help_button)
 
         about_action = QAction('About', self.tool_bar)
-        about_action.triggered.connect(
-            lambda: logging.warning('About action triggered'))  # define appropriate action here
+        about_action.triggered.connect(lambda: QMessageBox.about(window, 'About',
+                                                                 f'{version.app_name}\n{version.version}\n\n{version.author}'))
         help_menu.addAction(about_action)
 
 class MainWindow(QMainWindow):
