@@ -1,5 +1,6 @@
 import sys
 import os
+import importlib
 from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QLineEdit
 from PySide6.QtGui import QColor, QPixmap, QPainter
 from PySide6.QtCore import Qt
@@ -70,7 +71,7 @@ class MainWindow(QMainWindow):
     def update_color_bar_and_text(self, text):
         mode_info = self.parameter_config['Modus'].get(text.upper())
         if mode_info:
-            color_name, python_file = [item.strip() for item in mode_info.split('=')]
+            color_name, python_file_name = [item.strip() for item in mode_info.split('=')]
             color_map = {
                 "Rot": QColor(255, 0, 0),
                 "Grün": QColor(0, 255, 0),
@@ -81,7 +82,9 @@ class MainWindow(QMainWindow):
             text_color = "white" if self.is_color_dark(color) else "black"
             self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
             self.color_bar.setText(text.lower())
-            # Handle the python_file if needed
+
+            # Load and execute content from the specified Python file
+            self.load_and_execute_python_file(python_file_name)
 
     def is_color_dark(self, color: QColor):
         luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
@@ -95,6 +98,16 @@ class MainWindow(QMainWindow):
             first_mode = next(iter(self.parameter_config['Modus']))
             self.combo_box.setCurrentText(first_mode.lower())
             self.update_color_bar_and_text(first_mode.lower())
+
+    def load_and_execute_python_file(self, python_file_name):
+        module_name = os.path.splitext(python_file_name)[0]  # Extract module name
+        try:
+            module = importlib.import_module(module_name)
+            # Here you can execute a specific function or class from the module
+            # For example: module.some_function() or module.SomeClass()
+            print(f"Module {module_name} imported successfully.")
+        except ImportError:
+            print(f"Failed to import module {module_name}.")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
