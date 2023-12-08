@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtCore import QRect
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu, QWidget, QVBoxLayout
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu, QWidget, QVBoxLayout, QToolBar
 from PySide6.QtGui import QAction
 import version
 
@@ -23,20 +23,23 @@ class MainWindow(QMainWindow):
         self.layout = QVBoxLayout()
         self.main_widget.setLayout(self.layout)
 
-        # Setup Menu Bar
-        self.menu_bar = self.menuBar()
+        # Setup Tool Bar
+        self.tool_bar = self.addToolBar('Main Tools')
 
-        # Setup File Menu
+        # Setup File Menu on tool bar
         self.file_menu = QMenu('File', self)
-        self.menu_bar.addMenu(self.file_menu)
+        self.file_action = self.tool_bar.addAction('File')
+        self.file_action.setMenu(self.file_menu)
 
-        # Setup Edit Menu
+        # Setup Edit Menu on tool bar
         self.edit_menu = QMenu('Edit', self)
-        self.menu_bar.addMenu(self.edit_menu)
+        self.edit_action = self.tool_bar.addAction('Edit')
+        self.edit_action.setMenu(self.edit_menu)
 
-        # Setup Help Menu
+        # Setup Help Menu on tool bar
         self.help_menu = QMenu('Help', self)
-        self.menu_bar.addMenu(self.help_menu)
+        self.help_action = self.tool_bar.addAction('Help')
+        self.help_action.setMenu(self.help_menu)
 
         # File Menu Actions
         self.exit_action = QAction('Exit', self)
