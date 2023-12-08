@@ -56,12 +56,12 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
-        # Hintergrund-Widget
-        self.background_widget = BackgroundWidget(self)
-        self.setCentralWidget(self.background_widget)
+        # Zentrales Widget
+        central_widget = QWidget(self)
+        self.setCentralWidget(central_widget)
 
         # Haupt-Layout
-        main_layout = QVBoxLayout(self.background_widget)
+        main_layout = QVBoxLayout(central_widget)
 
         # Farbbalken
         self.color_bar = QLabel(self)
@@ -78,6 +78,11 @@ class MainWindow(QMainWindow):
         # Einzeiliges Textfeld
         self.line_edit = QLineEdit(self)
         main_layout.addWidget(self.line_edit)
+
+        # Hintergrund-Widget hinter den anderen Elementen
+        self.background_widget = BackgroundWidget(self)
+        self.background_widget.lower()  # Stellt sicher, dass es hinter den anderen Widgets liegt
+        self.background_widget.show()
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:

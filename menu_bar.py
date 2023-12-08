@@ -1,6 +1,6 @@
 
 from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QToolButton, QMenu, QApplication, QMessageBox, QWidget, QSizePolicy
+from PySide6.QtWidgets import QToolButton, QMenu, QApplication, QMessageBox, QWidget, QSizePolicy, QLineEdit, QTextEdit
 from custom_toolbar import CustomToolBar
 
 import version
