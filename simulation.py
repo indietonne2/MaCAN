@@ -1,7 +1,10 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton
+from PySide6.QtCore import Signal
 import can  # Importing the CAN library
 
 class SimulationWidget(QWidget):
+    back_signal = Signal()  # Custom signal for the back button
+
     def __init__(self):
         super().__init__()
         self.initUI()
@@ -9,6 +12,11 @@ class SimulationWidget(QWidget):
     def initUI(self):
         # Main layout
         layout = QVBoxLayout(self)
+
+        # "Zurück" Button
+        self.backButton = QPushButton("Zurück", self)
+        self.backButton.clicked.connect(self.on_back_clicked)
+        layout.addWidget(self.backButton)
 
         # Text fields
         self.textField1 = QLineEdit(self)
@@ -20,6 +28,12 @@ class SimulationWidget(QWidget):
 
         # Set the layout for the widget
         self.setLayout(layout)
+
+        # Set the window title
+        self.setWindowTitle("Simulation")
+
+    def on_back_clicked(self):
+        self.back_signal.emit()  # Emit the back signal when the button is clicked
 
 # If you need to run this file independently for testing
 # You can include a main function like this:

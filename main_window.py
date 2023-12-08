@@ -106,10 +106,16 @@ class MainWindow(QMainWindow):
             if hasattr(module, 'SimulationWidget'):
                 # Create an instance of the SimulationWidget and add it to the layout
                 simulation_widget = module.SimulationWidget()
+                simulation_widget.back_signal.connect(self.restore_initial_state)  # Connect to the back signal
                 self.add_simulation_to_layout(simulation_widget)
+            self.setWindowTitle(f"Module: {module_name}")  # Set window title to module name
             print(f"Module {module_name} imported successfully.")
         except ImportError:
             print(f"Failed to import module {module_name}.")
+
+    def restore_initial_state(self):
+        self.setWindowTitle("Modus Auswahl")  # Reset the window title
+        self.add_simulation_to_layout(QWidget())  # Add an empty widget to clear the layout
 
     def add_simulation_to_layout(self, simulation_widget):
         # Clear existing widgets in the layout before adding new
