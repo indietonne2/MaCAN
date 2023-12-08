@@ -1,7 +1,7 @@
-from PySide6.QtCore import QRect
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QMenu
-from PySide6.QtGui import QAction
 import sys
+from PySide6.QtCore import QRect
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu, QWidget, QVBoxLayout
+from PySide6.QtGui import QAction
 import version
 
 print(f'Version: {version.version}')
@@ -11,31 +11,51 @@ print(f'AppName: {version.app_name}')
 app = QApplication(sys.argv)
 
 
-class MainWindow(QWidget):
+class MainWindow(QMainWindow):
     def __init__(self):
-        super().__init__()
+        QMainWindow.__init__(self)
         self.setGeometry(50, 50, 800, 600)
         self.setWindowTitle(f"{version.app_name} {version.version}")
 
+        # Setup Main Area (central widget)
+        self.main_widget = QWidget(self)
+        self.setCentralWidget(self.main_widget)
         self.layout = QVBoxLayout()
-        self.setLayout(self.layout)
+        self.main_widget.setLayout(self.layout)
 
-        self.menu_button = QPushButton('Menu')
-        self.layout.addWidget(self.menu_button)
+        # Setup Menu Bar
+        self.menu_bar = self.menuBar()
 
-        self.menu = QMenu(self)
+        # Setup File Menu
+        self.file_menu = QMenu('File', self)
+        self.menu_bar.addMenu(self.file_menu)
+
+        # Setup Edit Menu
+        self.edit_menu = QMenu('Edit', self)
+        self.menu_bar.addMenu(self.edit_menu)
+
+        # Setup Help Menu
+        self.help_menu = QMenu('Help', self)
+        self.menu_bar.addMenu(self.help_menu)
 
         # File Menu Actions
         self.exit_action = QAction('Exit', self)
-        self.menu.addAction(self.exit_action)
+        self.file_menu.addAction(self.exit_action)
         self.exit_action.triggered.connect(self.exit_app)
 
-        # Additional actions as needed...
-        self.menu_button.setMenu(self.menu)
+        # Edit Menu Actions
+        self.cut_action = QAction('Cut', self)
+        self.edit_menu.addAction(self.cut_action)
 
-        self.mylabel = QLabel(self)
+        self.copy_action = QAction('Copy', self)
+        self.edit_menu.addAction(self.copy_action)
+
+        # Help Menu Actions
+        self.about_action = QAction('About', self)
+        self.help_menu.addAction(self.about_action)
+
+        self.mylabel = QLabel(self.main_widget)
         self.mylabel.setText('Hello, World!')
-        self.mylabel.setGeometry(QRect(200, 200, 200, 200))
 
     def exit_app(self):
         sys.exit()
