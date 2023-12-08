@@ -1,9 +1,9 @@
-import configparser
 from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox
 from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
 from PySide6.QtCore import Qt
 import sys
 import os
+import configparser
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout()
 
         # Farbbalken
-        self.color_bar.setGeometry(0, 0, self.width(), 30)
+        self.color_bar.setFixedHeight(20)  # Setzt die Höhe des Farbbalkens auf 20 Pixel
         self.color_bar.setStyleSheet("background-color: red;")  # Standardfarbe
         layout.addWidget(self.color_bar)
 
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         painter.drawPixmap(pixmap.rect(), pixmap)
         painter.end()
         self.background_image.setPixmap(pixmap)
-        self.background_image.setGeometry(0, 30, self.width(), self.height() - 30)
+        self.background_image.setGeometry(0, self.color_bar.height(), self.width(), self.height() - self.color_bar.height())
 
     def resizeEvent(self, event: QPaintEvent):
         self.update_background_image()
