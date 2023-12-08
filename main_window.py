@@ -29,7 +29,6 @@ class MainWindow(QMainWindow):
         # Farbbalken
         self.color_bar.setFixedHeight(20)  # Setzt die Höhe des Farbbalkens auf 20 Pixel
         self.color_bar.setAlignment(Qt.AlignCenter)  # Text zentrieren
-        self.color_bar.setStyleSheet("background-color: red; color: white;")  # Standardfarbe und Textfarbe
         layout.addWidget(self.color_bar)
 
         # Auswahlfeld
@@ -47,10 +46,17 @@ class MainWindow(QMainWindow):
             self.combo_box.addItem(key)
 
     def update_color_bar_and_text(self, text):
-        color = self.modus_config.get(text, "Rot")
+        color_name = self.modus_config.get(text, "Rot")
         color_map = {"Rot": QColor(255, 0, 0), "Grün": QColor(0, 255, 0), "Blau": QColor(0, 0, 255), "Orange": QColor(255, 165, 0)}
-        self.color_bar.setStyleSheet(f"background-color: {color_map[color].name()}; color: white;")
+        color = color_map[color_name]
+        text_color = "white" if self.is_color_dark(color) else "black"
+        self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
         self.color_bar.setText(text)  # Setzt den ausgewählten Modus als Text im Farbbalken
+
+    def is_color_dark(self, color: QColor):
+        # Berechnung der Luminanz
+        luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
+        return luminance < 0.5
 
     def update_background_image(self):
         pixmap = QPixmap(os.path.join('resources', 'background.png'))
