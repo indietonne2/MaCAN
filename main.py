@@ -13,6 +13,7 @@ class MenuBar:
 
         self.create_file_menu(main_window)
         self.create_edit_menu(main_window)
+        self.create_help_menu(main_window)
 
     def create_file_menu(self, window):
         file_button = QToolButton(self.tool_bar)
