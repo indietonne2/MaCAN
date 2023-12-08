@@ -21,16 +21,16 @@ class MainWindow(QMainWindow):
     def read_mode_config(self):
         self.mode_config.read('mode.cfg')
         selected_mode = self.mode_config.get('selected mode', 'mode', fallback=None)
-        if selected_mode and selected_mode in self.parameter_config:
-            self.combo_box.setCurrentText(selected_mode)
-            self.update_color_bar_and_text(selected_mode)
+        if selected_mode and selected_mode.upper() in self.parameter_config['Modus']:
+            self.combo_box.setCurrentText(selected_mode.lower())
+            self.update_color_bar_and_text(selected_mode.lower())
         else:
             first_mode = next(iter(self.parameter_config['Modus']))
-            self.combo_box.setCurrentText(first_mode)
-            self.update_color_bar_and_text(first_mode)
+            self.combo_box.setCurrentText(first_mode.lower())
+            self.update_color_bar_and_text(first_mode.lower())
 
     def write_mode_config(self, mode):
-        self.mode_config['selected mode'] = {'mode': mode}
+        self.mode_config['selected mode'] = {'mode': mode.upper()}
         with open('mode.cfg', 'w') as configfile:
             self.mode_config.write(configfile)
 
@@ -60,14 +60,14 @@ class MainWindow(QMainWindow):
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
-            self.combo_box.addItem(key)
+            self.combo_box.addItem(key.lower())
 
     def on_mode_selected(self, text):
         self.update_color_bar_and_text(text)
         self.write_mode_config(text)
 
     def update_color_bar_and_text(self, text):
-        color_name = self.parameter_config['Modus'].get(text, "Rot")
+        color_name = self.parameter_config['Modus'].get(text.upper(), "Rot")
         color_map = {
             "Rot": QColor(255, 0, 0),
             "Grün": QColor(0, 255, 0),
@@ -77,7 +77,7 @@ class MainWindow(QMainWindow):
         color = color_map.get(color_name, QColor(255, 0, 0))
         text_color = "white" if self.is_color_dark(color) else "black"
         self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
-        self.color_bar.setText(text)
+        self.color_bar.setText(text.lower())
 
     def is_color_dark(self, color: QColor):
         luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
