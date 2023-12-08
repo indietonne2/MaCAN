@@ -1,9 +1,12 @@
-import configparser
-from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox
-from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
-from PySide6.QtCore import Qt
 import sys
 import os
+import configparser
+from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QTextEdit
+from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
+from PySide6.QtCore import Qt
+
+# Importieren Sie MenuBar von der menu_bar.py Datei
+from menu_bar import MenuBar
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -13,6 +16,10 @@ class MainWindow(QMainWindow):
         self.read_parameter_config()
         self.initUI()
         self.read_mode_config()  # Liest den initialen Modus aus mode.cfg
+
+        # Erstellen einer Instanz von MenuBar und Hinzufügen zum Hauptfenster
+        self.menu_bar = MenuBar(self)
+        self.addToolBar(self.menu_bar.tool_bar)
 
     def read_parameter_config(self):
         self.parameter_config.read('parameter.cfg')
@@ -38,33 +45,36 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
-        layout = QVBoxLayout()
+        # Haupt-Layout
+        main_layout = QVBoxLayout()
 
         # Farbbalken
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
         self.color_bar.setAlignment(Qt.AlignCenter)
-        layout.addWidget(self.color_bar)
+        main_layout.addWidget(self.color_bar)
 
         # Auswahlfeld
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
-        self.combo_box.currentTextChanged.connect(self.on_mode_selected)
-        layout.addWidget(self.combo_box, 0, Qt.AlignTop)
+        self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
+        main_layout.addWidget(self.combo_box)
 
+        # TextEdit-Widget für Textbearbeitung
+        self.text_edit = QTextEdit()
+        main_layout.addWidget(self.text_edit)
+
+        # Zentrales Widget setzen
         central_widget = QWidget()
-        central_widget.setLayout(layout)
+        central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
+        # Hintergrundbild
         self.update_background_image()
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
             self.combo_box.addItem(key.lower())
-
-    def on_mode_selected(self, text):
-        self.update_color_bar_and_text(text)
-        self.write_mode_config(text)
 
     def update_color_bar_and_text(self, text):
         color_name = self.parameter_config['Modus'].get(text.upper(), "Rot")
@@ -101,4 +111,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec())
+    sys.exit
