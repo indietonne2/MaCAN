@@ -1,5 +1,5 @@
 from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QToolButton, QMenu, QApplication, QMessageBox
+from PySide6.QtWidgets import QToolButton, QMenu, QApplication, QMessageBox, QWidget, QSizePolicy
 from custom_toolbar import CustomToolBar
 import version
 
@@ -9,6 +9,13 @@ class MenuBar:
 
         self.create_file_menu(main_window)
         self.create_edit_menu(main_window)
+
+        # Fügen Sie hier einen Spacer ein
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.tool_bar.addWidget(spacer)
+
+        # Erstellen Sie dann das Hilfe-Menü
         self.create_help_menu(main_window)
 
     def create_file_menu(self, window):
