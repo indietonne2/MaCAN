@@ -43,25 +43,25 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.background_widget)
 
         # Create a layout for the widgets on top of the background
-        top_layout = QVBoxLayout()
-        top_layout.setAlignment(Qt.AlignTop)
-        self.background_widget.setLayout(top_layout)
+        self.main_layout = QVBoxLayout()
+        self.main_layout.setAlignment(Qt.AlignTop)
+        self.background_widget.setLayout(self.main_layout)
 
         # Color Bar
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
         self.color_bar.setAlignment(Qt.AlignCenter)
-        top_layout.addWidget(self.color_bar)
+        self.main_layout.addWidget(self.color_bar)
 
         # Combo Box
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
-        top_layout.addWidget(self.combo_box)
+        self.main_layout.addWidget(self.combo_box)
 
         # Single Line Edit
         self.line_edit = QLineEdit(self)
-        top_layout.addWidget(self.line_edit)
+        self.main_layout.addWidget(self.line_edit)
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
@@ -103,11 +103,21 @@ class MainWindow(QMainWindow):
         module_name = os.path.splitext(python_file_name)[0]  # Extract module name
         try:
             module = importlib.import_module(module_name)
-            # Here you can execute a specific function or class from the module
-            # For example: module.some_function() or module.SomeClass()
+            if hasattr(module, 'SimulationWidget'):
+                # Create an instance of the SimulationWidget and add it to the layout
+                simulation_widget = module.SimulationWidget()
+                self.add_simulation_to_layout(simulation_widget)
             print(f"Module {module_name} imported successfully.")
         except ImportError:
             print(f"Failed to import module {module_name}.")
+
+    def add_simulation_to_layout(self, simulation_widget):
+        # Clear existing widgets in the layout before adding new
+        for i in reversed(range(self.main_layout.count())):
+            widget_to_remove = self.main_layout.itemAt(i).widget()
+            if widget_to_remove is not None:
+                widget_to_remove.setParent(None)
+        self.main_layout.addWidget(simulation_widget)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
