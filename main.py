@@ -18,20 +18,16 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(f"{version.app_name} {version.version}")
 
         # Setup Menu Bar
-        self.menu_bar = QMenuBar(self)
-        self.setMenuBar(self.menu_bar)
+        self.menu_bar = self.menuBar()  # Initialize the QMainWindow menu bar
 
         # Setup File Menu
-        self.file_menu = QMenu('File', self)
-        self.menu_bar.addMenu(self.file_menu)
+        self.file_menu = self.menu_bar.addMenu('File')  # Add the File menu
 
         # Setup Edit Menu
-        self.edit_menu = QMenu('Edit', self)
-        self.menu_bar.addMenu(self.edit_menu)
+        self.edit_menu = self.menu_bar.addMenu('Edit')  # Add the Edit menu
 
         # Setup Help Menu
-        self.help_menu = QMenu('Help', self)
-        self.menu_bar.addMenu(self.help_menu)
+        self.help_menu = self.menu_bar.addMenu('Help')  # Add the Help menu
 
         # File Menu Actions
         self.exit_action = QAction('Exit', self)
