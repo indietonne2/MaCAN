@@ -1,17 +1,18 @@
 import sys
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QAction, QMenu, QToolButton, QWidget, QToolBar, QLineEdit
-from PySide6.QtGui import QApplication
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, \
+    QLineEdit
+from PySide6.QtGui import QAction  # QAction is part of QtGui
 import version
 
 
 class MenuBar:
-    def __init__(self, parent):
-        self.tool_bar = QToolBar('Main Tools', parent)
+    def __init__(self, main_window):
+        self.tool_bar = QToolBar('Main Tools', main_window)
 
-        self.create_file_menu()
-        self.create_edit_menu()
+        self.create_file_menu(main_window)
+        self.create_edit_menu(main_window)
 
-    def create_file_menu(self):
+    def create_file_menu(self, window):
         file_button = QToolButton(self.tool_bar)
         file_button.setText('File')
         file_menu = QMenu(file_button)
@@ -23,7 +24,7 @@ class MenuBar:
         exit_action.triggered.connect(QApplication.instance().quit)
         file_menu.addAction(exit_action)
 
-    def create_edit_menu(self):
+    def create_edit_menu(self, window):
         edit_button = QToolButton(self.tool_bar)
         edit_button.setText('Edit')
         edit_menu = QMenu(edit_button)
@@ -32,11 +33,11 @@ class MenuBar:
         self.tool_bar.addWidget(edit_button)
 
         cut_action = QAction('Cut', self.tool_bar)
-        cut_action.triggered.connect(self.tool_bar.parent().parent().text_edit.cut)
+        cut_action.triggered.connect(window.text_edit.cut)
         edit_menu.addAction(cut_action)
 
         copy_action = QAction('Copy', self.tool_bar)
-        copy_action.triggered.connect(self.tool_bar.parent().parent().text_edit.copy)
+        copy_action.triggered.connect(window.text_edit.copy)
         edit_menu.addAction(copy_action)
 
 
@@ -58,6 +59,7 @@ class MainWindow(QMainWindow):
 
         self.mylabel = QLabel(self.main_widget)
         self.mylabel.setText('Hello, World!')
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
