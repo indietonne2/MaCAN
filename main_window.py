@@ -28,13 +28,14 @@ class MainWindow(QMainWindow):
 
         # Farbbalken
         self.color_bar.setFixedHeight(20)  # Setzt die Höhe des Farbbalkens auf 20 Pixel
-        self.color_bar.setStyleSheet("background-color: red;")  # Standardfarbe
+        self.color_bar.setAlignment(Qt.AlignCenter)  # Text zentrieren
+        self.color_bar.setStyleSheet("background-color: red; color: white;")  # Standardfarbe und Textfarbe
         layout.addWidget(self.color_bar)
 
         # Auswahlfeld
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
-        self.combo_box.currentTextChanged.connect(self.update_color_bar)  # Aktualisieren der Farbe bei Auswahl
+        self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)  # Aktualisieren der Farbe und Text bei Auswahl
         layout.addWidget(self.combo_box, 0, Qt.AlignTop)
 
         central_widget = QWidget()
@@ -45,10 +46,11 @@ class MainWindow(QMainWindow):
         for key in self.modus_config.keys():
             self.combo_box.addItem(key)
 
-    def update_color_bar(self, text):
+    def update_color_bar_and_text(self, text):
         color = self.modus_config.get(text, "Rot")
         color_map = {"Rot": QColor(255, 0, 0), "Grün": QColor(0, 255, 0), "Blau": QColor(0, 0, 255), "Orange": QColor(255, 165, 0)}
-        self.color_bar.setStyleSheet(f"background-color: {color_map[color].name()};")
+        self.color_bar.setStyleSheet(f"background-color: {color_map[color].name()}; color: white;")
+        self.color_bar.setText(text)  # Setzt den ausgewählten Modus als Text im Farbbalken
 
     def update_background_image(self):
         pixmap = QPixmap(os.path.join('resources', 'background.png'))
