@@ -1,8 +1,10 @@
+import logging
 import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, \
     QLineEdit
 from PySide6.QtGui import QAction  # QAction is part of QtGui
 import version
+import logging
 
 
 class MenuBar:
@@ -40,6 +42,18 @@ class MenuBar:
         copy_action.triggered.connect(window.text_edit.copy)
         edit_menu.addAction(copy_action)
 
+    def create_help_menu(self, window):
+        help_button = QToolButton(self.tool_bar)
+        help_button.setText('Help')
+        help_menu = QMenu(help_button)  # define help_menu here
+        help_button.setMenu(help_menu)
+        help_button.setPopupMode(QToolButton.InstantPopup)
+        self.tool_bar.addWidget(help_button)
+
+        about_action = QAction('About', self.tool_bar)
+        about_action.triggered.connect(
+            lambda: logging.warning('About action triggered'))  # define appropriate action here
+        help_menu.addAction(about_action)
 
 class MainWindow(QMainWindow):
     def __init__(self):
