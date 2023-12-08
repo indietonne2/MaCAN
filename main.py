@@ -5,6 +5,8 @@ from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QM
 from PySide6.QtGui import QAction  # QAction is part of QtGui
 import version
 import logging
+from PySide6.QtGui import QTextDocument, QTextCursor, QTextOption
+
 
 
 class MenuBar:
@@ -51,11 +53,19 @@ class MenuBar:
         help_button.setPopupMode(QToolButton.InstantPopup)
         self.tool_bar.addWidget(help_button)
 
-        about_action = QAction('About', self.tool_bar)
-        about_action.triggered.connect(lambda: QMessageBox.about(window, 'About',
-                                                                 f'{version.app_name}\n{version.version}\n\n{version.author}'))
+        about_action = QAction('About', window)
+        about_action.triggered.connect(self.showMessage)
         help_menu.addAction(about_action)
 
+    def showMessage(self):
+        message_box = QMessageBox()
+        message_box.setWindowTitle("About")
+        text_document = QTextDocument()
+        text_cursor = QTextCursor(text_document)
+        text_cursor.insertText(f"{version.app_name}\n{version.version}\n\n{version.author}")
+        text_document.setDefaultTextOption(QTextOption(Qt.AlignCenter))
+        message_box.setText(text_document.toPlainText())
+        message_box.show()
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
