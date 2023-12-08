@@ -1,8 +1,8 @@
 import sys
 import os
 import configparser
-from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QTextEdit
-from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent, QPalette, QBrush
+from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QLineEdit
+from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
 from PySide6.QtCore import Qt
 
 # Importieren Sie MenuBar von der menu_bar.py Datei
@@ -26,7 +26,7 @@ class MainWindow(QMainWindow):
         self.mode_config = configparser.ConfigParser()
         self.read_parameter_config()
         self.initUI()
-        self.read_mode_config()  # Liest den initialen Modus aus mode.cfg
+        self.read_mode_config()
 
         # Erstellen einer Instanz von MenuBar und Hinzufügen zum Hauptfenster
         self.menu_bar = MenuBar(self)
@@ -75,9 +75,9 @@ class MainWindow(QMainWindow):
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
         main_layout.addWidget(self.combo_box)
 
-        # TextEdit-Widget für Textbearbeitung
-        self.text_edit = QTextEdit()
-        main_layout.addWidget(self.text_edit)
+        # Einzeiliges Textfeld
+        self.line_edit = QLineEdit(self)
+        main_layout.addWidget(self.line_edit)
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:

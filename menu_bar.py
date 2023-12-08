@@ -1,6 +1,8 @@
+
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QToolButton, QMenu, QApplication, QMessageBox, QWidget, QSizePolicy
 from custom_toolbar import CustomToolBar
+
 import version
 
 class MenuBar:
@@ -40,12 +42,33 @@ class MenuBar:
         self.tool_bar.addWidget(edit_button)
 
         cut_action = QAction('Cut', self.tool_bar)
-        cut_action.triggered.connect(window.text_edit.cut)
+        cut_action.triggered.connect(self.cut_text)
         edit_menu.addAction(cut_action)
 
         copy_action = QAction('Copy', self.tool_bar)
-        copy_action.triggered.connect(window.text_edit.copy)
+        copy_action.triggered.connect(self.copy_text)
         edit_menu.addAction(copy_action)
+
+        # Überprüfen Sie beim Öffnen des Menüs, ob die Aktionen aktiviert sein sollten
+        edit_menu.aboutToShow.connect(self.update_edit_actions)
+
+    def cut_text(self):
+        focused_widget = QApplication.focusWidget()
+        if isinstance(focused_widget, (QLineEdit, QTextEdit)):
+            focused_widget.cut()
+
+    def copy_text(self):
+        focused_widget = QApplication.focusWidget()
+        if isinstance(focused_widget, (QLineEdit, QTextEdit)):
+            focused_widget.copy()
+
+    def update_edit_actions(self):
+        focused_widget = QApplication.focusWidget()
+        is_editable = isinstance(focused_widget, (QLineEdit, QTextEdit))
+
+        for action in self.tool_bar.actions():
+            if action.text() in ["Cut", "Copy"]:
+                action.setEnabled(is_editable)
 
     def create_help_menu(self, window):
         help_button = QToolButton(self.tool_bar)
