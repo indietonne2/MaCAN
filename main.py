@@ -1,5 +1,5 @@
 from PySide6.QtCore import QRect
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QPushButton, QMenu
 from PySide6.QtGui import QAction
 import sys
 import version
@@ -11,39 +11,27 @@ print(f'AppName: {version.app_name}')
 app = QApplication(sys.argv)
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self):
-        QMainWindow.__init__(self)
-        self.setGeometry(50, 50, 1920, 1080)
+        super().__init__()
+        self.setGeometry(50, 50, 800, 600)
         self.setWindowTitle(f"{version.app_name} {version.version}")
 
-        # Setup Menu Bar
-        self.menu_bar = self.menuBar()  # Initialize the QMainWindow menu bar
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
 
-        # Setup File Menu
-        self.file_menu = self.menu_bar.addMenu('File')  # Add the File menu
+        self.menu_button = QPushButton('Menu')
+        self.layout.addWidget(self.menu_button)
 
-        # Setup Edit Menu
-        self.edit_menu = self.menu_bar.addMenu('Edit')  # Add the Edit menu
-
-        # Setup Help Menu
-        self.help_menu = self.menu_bar.addMenu('Help')  # Add the Help menu
+        self.menu = QMenu(self)
 
         # File Menu Actions
         self.exit_action = QAction('Exit', self)
-        self.file_menu.addAction(self.exit_action)
+        self.menu.addAction(self.exit_action)
         self.exit_action.triggered.connect(self.exit_app)
 
-        # Edit Menu Actions
-        self.cut_action = QAction('Cut', self)
-        self.edit_menu.addAction(self.cut_action)
-
-        self.copy_action = QAction('Copy', self)
-        self.edit_menu.addAction(self.copy_action)
-
-        # Help Menu Actions
-        self.about_action = QAction('About', self)
-        self.help_menu.addAction(self.about_action)
+        # Additional actions as needed...
+        self.menu_button.setMenu(self.menu)
 
         self.mylabel = QLabel(self)
         self.mylabel.setText('Hello, World!')
