@@ -5,7 +5,7 @@ from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QW
 from PySide6.QtGui import QColor, QPixmap, QPainter, QPaintEvent
 from PySide6.QtCore import Qt
 
-# Importieren Sie MenuBar von der menu_bar.py Datei
+# Import MenuBar from the menu_bar.py file
 from menu_bar import MenuBar
 
 class BackgroundWidget(QWidget):
@@ -15,8 +15,11 @@ class BackgroundWidget(QWidget):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setOpacity(0.5)  # Setzen der Transparenz
-        painter.drawPixmap(self.rect(), self.pixmap)
+        painter.setOpacity(0.5)  # Set transparency
+        pixmap_rect = self.pixmap.rect()
+        target_rect = self.rect()
+        pixmap_rect.moveCenter(target_rect.center())  # Center the background image
+        painter.drawPixmap(target_rect, self.pixmap, pixmap_rect)
         painter.end()
 
 class MainWindow(QMainWindow):
@@ -28,7 +31,7 @@ class MainWindow(QMainWindow):
         self.initUI()
         self.read_mode_config()
 
-        # Erstellen einer Instanz von MenuBar und Hinzufügen zum Hauptfenster
+        # Create an instance of MenuBar and add it to the main window
         self.menu_bar = MenuBar(self)
         self.addToolBar(self.menu_bar.tool_bar)
 
@@ -56,33 +59,32 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
-        # Zentrales Widget
+        # Central widget
         central_widget = QWidget(self)
         self.setCentralWidget(central_widget)
 
-        # Haupt-Layout
+        # Main layout
         main_layout = QVBoxLayout(central_widget)
 
-        # Farbbalken
+        # Color Bar
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
         self.color_bar.setAlignment(Qt.AlignCenter)
         main_layout.addWidget(self.color_bar)
 
-        # Auswahlfeld
+        # Combo Box
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
         main_layout.addWidget(self.combo_box)
 
-        # Einzeiliges Textfeld
+        # Single Line Edit
         self.line_edit = QLineEdit(self)
         main_layout.addWidget(self.line_edit)
 
-        # Hintergrund-Widget hinter den anderen Elementen
+        # Background Widget
         self.background_widget = BackgroundWidget(self)
-        self.background_widget.lower()  # Stellt sicher, dass es hinter den anderen Widgets liegt
-        self.background_widget.show()
+        main_layout.insertWidget(0, self.background_widget)
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
