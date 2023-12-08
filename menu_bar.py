@@ -11,7 +11,12 @@ class MenuBar:
         self.create_file_menu(main_window)
         self.create_edit_menu(main_window)
 
-        # Erstellen des "Hilfe"-Menüs
+        # Spacer hinzufügen, um die "Hilfe"-Schaltfläche rechtsbündig zu machen
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.tool_bar.addWidget(spacer)
+
+        # "Hilfe"-Menü zuletzt hinzufügen
         self.create_help_menu(main_window)
 
     def create_file_menu(self, window):
@@ -34,7 +39,6 @@ class MenuBar:
         edit_button.setPopupMode(QToolButton.InstantPopup)
         self.tool_bar.addWidget(edit_button)
 
-        # Die folgenden Aktionen beziehen sich auf window.text_edit, das in MainWindow definiert ist.
         cut_action = QAction('Cut', self.tool_bar)
         cut_action.triggered.connect(window.text_edit.cut)
         edit_menu.addAction(cut_action)
