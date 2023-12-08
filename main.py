@@ -1,5 +1,5 @@
 import logging
-mport sys
+import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, QLineEdit, QMessageBox
 from PySide6.QtGui import QAction, QTextDocument, QTextCursor, QTextOption
 from PySide6.QtCore import Qt  # We need QtCore.Qt for the alignment
