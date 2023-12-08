@@ -1,12 +1,10 @@
 import sys
 
 from PySide6.QtGui import QAction
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, \
-    QLineEdit, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QLineEdit, QMessageBox
+from PySide6.QtWidgets import QToolBar, QWidget, QSizePolicy
 
 import version
-
-from PySide6.QtWidgets import QToolBar, QWidget, QSizePolicy
 
 
 class CustomToolBar(QToolBar):
