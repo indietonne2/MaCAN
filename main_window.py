@@ -63,32 +63,36 @@ class MainWindow(QMainWindow):
         top_layout.addWidget(self.line_edit)
 
     def fill_combo_box(self):
-        for key in self.parameter_config:
-            self.combo_box.addItem(key.lower())
+        for key in self.parameter_config['Modus']:
+            mode_name = key.split('=')[0].strip()
+            self.combo_box.addItem(mode_name.lower())
 
     def update_color_bar_and_text(self, text):
-        color_name = self.parameter_config.get(text.upper(), "Rot")
-        color_map = {
-            "Rot": QColor(255, 0, 0),
-            "Grün": QColor(0, 255, 0),
-            "Blau": QColor(0, 0, 255),
-            "Orange": QColor(255, 165, 0)
-        }
-        color = color_map.get(color_name, QColor(255, 0, 0))
-        text_color = "white" if self.is_color_dark(color) else "black"
-        self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
-        self.color_bar.setText(text.lower())
+        mode_info = self.parameter_config['Modus'].get(text.upper())
+        if mode_info:
+            color_name, python_file = [item.strip() for item in mode_info.split('=')]
+            color_map = {
+                "Rot": QColor(255, 0, 0),
+                "Grün": QColor(0, 255, 0),
+                "Blau": QColor(0, 0, 255),
+                "Orange": QColor(255, 165, 0)
+            }
+            color = color_map.get(color_name, QColor(255, 0, 0))
+            text_color = "white" if self.is_color_dark(color) else "black"
+            self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
+            self.color_bar.setText(text.lower())
+            # Handle the python_file if needed
 
     def is_color_dark(self, color: QColor):
         luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
         return luminance < 0.5
 
     def handle_mode_selection(self, selected_mode):
-        if selected_mode and selected_mode.upper() in self.parameter_config:
+        if selected_mode and selected_mode.upper() in self.parameter_config['Modus']:
             self.combo_box.setCurrentText(selected_mode.lower())
             self.update_color_bar_and_text(selected_mode.lower())
         else:
-            first_mode = next(iter(self.parameter_config))
+            first_mode = next(iter(self.parameter_config['Modus']))
             self.combo_box.setCurrentText(first_mode.lower())
             self.update_color_bar_and_text(first_mode.lower())
 
