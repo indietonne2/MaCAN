@@ -1,11 +1,8 @@
-import logging
 import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QVBoxLayout, QMenu, QToolButton, QWidget, QToolBar, QLineEdit, QMessageBox
 from PySide6.QtGui import QAction, QTextDocument, QTextCursor, QTextOption
 from PySide6.QtCore import Qt  # We need QtCore.Qt for the alignment
 import version
-import logging
-
 
 
 class MenuBar:
@@ -52,19 +49,17 @@ class MenuBar:
         help_button.setPopupMode(QToolButton.InstantPopup)
         self.tool_bar.addWidget(help_button)
 
-        about_action = QAction('About', window)
+        about_action = QAction('About', self.tool_bar)
         about_action.triggered.connect(self.showMessage)
         help_menu.addAction(about_action)
 
     def showMessage(self):
-        message_box = QMessageBox()
-        message_box.setWindowTitle("About")
-        text_document = QTextDocument()
-        text_cursor = QTextCursor(text_document)
-        text_cursor.insertText(f"{version.app_name}\n{version.version}\n\n{version.author}")
-        text_document.setDefaultTextOption(QTextOption(Qt.AlignCenter))
-        message_box.setText(text_document.toPlainText())
-        message_box.show()
+        self.message_box = QMessageBox()
+        self.message_box.setWindowTitle("About")
+        self.message_box.setText(f"<center>{version.app_name}<br>{version.version}<br><br>{version.author}</center>")
+        self.message_box.show()
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
