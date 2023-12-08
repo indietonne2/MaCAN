@@ -1,6 +1,6 @@
 import sys
 from PySide6.QtCore import QRect
-from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu, QWidget, QVBoxLayout, QToolBar
+from PySide6.QtWidgets import QMainWindow, QApplication, QLabel, QMenuBar, QMenu, QWidget, QVBoxLayout, QToolBar, QLineEdit
 from PySide6.QtGui import QAction
 import version
 
@@ -22,6 +22,10 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.main_widget)
         self.layout = QVBoxLayout()
         self.main_widget.setLayout(self.layout)
+
+        # Add a QLineEdit to illustrate 'Cut' and 'Copy'
+        self.text_edit = QLineEdit()
+        self.layout.addWidget(self.text_edit)
 
         # Setup Tool Bar
         self.tool_bar = self.addToolBar('Main Tools')
@@ -49,9 +53,11 @@ class MainWindow(QMainWindow):
         # Edit Menu Actions
         self.cut_action = QAction('Cut', self)
         self.edit_menu.addAction(self.cut_action)
+        self.cut_action.triggered.connect(self.text_edit.cut)  # Connect 'Cut' to QLineEdit.cut
 
         self.copy_action = QAction('Copy', self)
         self.edit_menu.addAction(self.copy_action)
+        self.copy_action.triggered.connect(self.text_edit.copy)  # Connect 'Copy' to QLineEdit.copy
 
         # Help Menu Actions
         self.about_action = QAction('About', self)
