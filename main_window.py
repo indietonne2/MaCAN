@@ -5,7 +5,10 @@ import version
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setGeometry(50, 50, 800, 600)
+
+        self.initUI()
+
+    def initUI(self):
         self.setWindowTitle(f"{version.app_name} {version.version}")
 
         self.main_widget = QWidget(self)
@@ -20,3 +23,5 @@ class MainWindow(QMainWindow):
 
         self.mylabel = QLabel(self.main_widget)
         self.mylabel.setText('Hello, World!')
+
+        self.showMaximized()
