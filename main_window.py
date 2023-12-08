@@ -37,32 +37,30 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
-        # Central widget
-        central_widget = QWidget(self)
-        self.setCentralWidget(central_widget)
+        # Main layout with Background Widget
+        self.background_widget = BackgroundWidget(self)
+        self.setCentralWidget(self.background_widget)
 
-        # Main layout
-        main_layout = QVBoxLayout(central_widget)
+        # Create a layout for the widgets on top of the background
+        top_layout = QVBoxLayout()
+        top_layout.setAlignment(Qt.AlignTop)
+        self.background_widget.setLayout(top_layout)
 
         # Color Bar
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
         self.color_bar.setAlignment(Qt.AlignCenter)
-        main_layout.addWidget(self.color_bar)
+        top_layout.addWidget(self.color_bar)
 
         # Combo Box
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
-        main_layout.addWidget(self.combo_box)
+        top_layout.addWidget(self.combo_box)
 
         # Single Line Edit
         self.line_edit = QLineEdit(self)
-        main_layout.addWidget(self.line_edit)
-
-        # Background Widget
-        self.background_widget = BackgroundWidget(self)
-        main_layout.insertWidget(0, self.background_widget)
+        top_layout.addWidget(self.line_edit)
 
     def fill_combo_box(self):
         for key in self.parameter_config:
