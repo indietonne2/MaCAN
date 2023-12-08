@@ -7,16 +7,11 @@ class MenuBar:
     def __init__(self, main_window):
         self.tool_bar = CustomToolBar('Main Tools', main_window)
 
-        # Erstellen Sie zuerst die "File" und "Edit" Menüs
+        # Erstellen der "File" und "Edit" Menüs zuerst
         self.create_file_menu(main_window)
         self.create_edit_menu(main_window)
 
-        # Fügen Sie dann einen Spacer ein
-        spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.tool_bar.addWidget(spacer)
-
-        # Erstellen Sie zuletzt das "Hilfe"-Menü
+        # Erstellen des "Hilfe"-Menüs
         self.create_help_menu(main_window)
 
     def create_file_menu(self, window):
@@ -39,6 +34,7 @@ class MenuBar:
         edit_button.setPopupMode(QToolButton.InstantPopup)
         self.tool_bar.addWidget(edit_button)
 
+        # Die folgenden Aktionen beziehen sich auf window.text_edit, das in MainWindow definiert ist.
         cut_action = QAction('Cut', self.tool_bar)
         cut_action.triggered.connect(window.text_edit.cut)
         edit_menu.addAction(cut_action)
