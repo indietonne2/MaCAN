@@ -38,22 +38,23 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Modus Auswahl")
         self.setGeometry(100, 100, 800, 600)
 
-        # Main layout with Background Widget
         self.background_widget = BackgroundWidget(self)
         self.setCentralWidget(self.background_widget)
 
-        # Create a layout for the widgets on top of the background
         self.main_layout = QVBoxLayout()
         self.main_layout.setAlignment(Qt.AlignTop)
         self.background_widget.setLayout(self.main_layout)
 
-        # Color Bar
+        self.create_initial_widgets()
+
+    def create_initial_widgets(self):
+        # Farbbalken
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
         self.color_bar.setAlignment(Qt.AlignCenter)
         self.main_layout.addWidget(self.color_bar)
 
-        # Combo Box
+        # ComboBox
         self.combo_box = QComboBox(self)
         self.fill_combo_box()
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
@@ -114,15 +115,18 @@ class MainWindow(QMainWindow):
             print(f"Failed to import module {module_name}.")
 
     def restore_initial_state(self):
-        self.setWindowTitle("Modus Auswahl")  # Reset the window title
-        self.add_simulation_to_layout(QWidget())  # Add an empty widget to clear the layout
+        self.clear_layout(self.main_layout)
+        self.create_initial_widgets()
+        self.setWindowTitle("Modus Auswahl")
+
+    def clear_layout(self, layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
 
     def add_simulation_to_layout(self, simulation_widget):
-        # Clear existing widgets in the layout before adding new
-        for i in reversed(range(self.main_layout.count())):
-            widget_to_remove = self.main_layout.itemAt(i).widget()
-            if widget_to_remove is not None:
-                widget_to_remove.setParent(None)
+        self.clear_layout(self.main_layout)
         self.main_layout.addWidget(simulation_widget)
 
 if __name__ == "__main__":
