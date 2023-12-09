@@ -1,8 +1,11 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PySide6.QtCore import Signal
 
+
+
+
+
 class EmulationWidget(QWidget):
-    back_signal = Signal()
 
     def __init__(self):
         super().__init__()
@@ -10,6 +13,8 @@ class EmulationWidget(QWidget):
 
     def initUI(self):
         layout = QVBoxLayout(self)
+
+
 
 
         # "Zurück" Button
@@ -30,6 +35,7 @@ class EmulationWidget(QWidget):
 
         # Set the window title
         self.setWindowTitle("Emulation")
+
 
     def on_back_clicked(self):
         self.back_signal.emit()  # Emit the back signal when the button is clicked

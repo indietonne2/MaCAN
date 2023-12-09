@@ -13,10 +13,6 @@ class SimulationWidget(QWidget):
         # Main layout
         layout = QVBoxLayout(self)
 
-        # "Zurück" Button
-        self.backButton = QPushButton("Zurück", self)
-        self.backButton.clicked.connect(self.on_back_clicked)
-        layout.addWidget(self.backButton)
 
         # Text fields
         self.textField1 = QLineEdit(self)

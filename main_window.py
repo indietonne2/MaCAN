@@ -110,6 +110,7 @@ class MainWindow(QMainWindow):
         except ImportError:
             print(f"Failed to import module {module_name}.")
 
+
     def restore_initial_state(self):
         self.stacked_widget.setCurrentIndex(-1)
         self.setWindowTitle("Modus Auswahl")
