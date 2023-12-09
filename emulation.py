@@ -1,17 +1,16 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
 from PySide6.QtCore import Signal
-import can  # Importing the CAN library
 
 class EmulationWidget(QWidget):
-    back_signal = Signal()  # Custom signal for the back button
+    back_signal = Signal()
 
     def __init__(self):
         super().__init__()
         self.initUI()
 
     def initUI(self):
-        # Main layout
         layout = QVBoxLayout(self)
+
 
         # "Zurück" Button
         self.backButton = QPushButton("Zurück", self)

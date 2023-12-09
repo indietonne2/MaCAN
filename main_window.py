@@ -1,7 +1,7 @@
 import sys
 import os
 import importlib
-from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QLineEdit
+from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QStackedWidget
 from PySide6.QtGui import QColor, QPixmap, QPainter
 from PySide6.QtCore import Qt
 from config import Config
@@ -42,12 +42,15 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.background_widget)
 
         self.main_layout = QVBoxLayout()
-        self.main_layout.setAlignment(Qt.AlignTop)
         self.background_widget.setLayout(self.main_layout)
 
-        self.create_initial_widgets()
+        self.create_persistent_widgets()
 
-    def create_initial_widgets(self):
+        # Bereich für modusspezifische Widgets
+        self.stacked_widget = QStackedWidget(self)
+        self.main_layout.addWidget(self.stacked_widget)
+
+    def create_persistent_widgets(self):
         # Farbbalken
         self.color_bar = QLabel(self)
         self.color_bar.setFixedHeight(20)
@@ -59,10 +62,6 @@ class MainWindow(QMainWindow):
         self.fill_combo_box()
         self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
         self.main_layout.addWidget(self.combo_box)
-
-        # Single Line Edit
-        self.line_edit = QLineEdit(self)
-        self.main_layout.addWidget(self.line_edit)
 
     def fill_combo_box(self):
         for key in self.parameter_config['Modus']:
@@ -84,7 +83,6 @@ class MainWindow(QMainWindow):
             self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
             self.color_bar.setText(text.lower())
 
-            # Load and execute content from the specified Python file
             self.load_and_execute_python_file(python_file_name)
 
     def is_color_dark(self, color: QColor):
@@ -101,33 +99,20 @@ class MainWindow(QMainWindow):
             self.update_color_bar_and_text(first_mode.lower())
 
     def load_and_execute_python_file(self, python_file_name):
-        module_name = os.path.splitext(python_file_name)[0]  # Extract module name
+        module_name = os.path.splitext(python_file_name)[0]
         try:
             module = importlib.import_module(module_name)
             if hasattr(module, 'SimulationWidget'):
-                # Create an instance of the SimulationWidget and add it to the layout
                 simulation_widget = module.SimulationWidget()
-                simulation_widget.back_signal.connect(self.restore_initial_state)  # Connect to the back signal
-                self.add_simulation_to_layout(simulation_widget)
-            self.setWindowTitle(f"Module: {module_name}")  # Set window title to module name
-            print(f"Module {module_name} imported successfully.")
+                self.stacked_widget.addWidget(simulation_widget)
+                self.stacked_widget.setCurrentWidget(simulation_widget)
+            self.setWindowTitle(f"Module: {module_name}")
         except ImportError:
             print(f"Failed to import module {module_name}.")
 
     def restore_initial_state(self):
-        self.clear_layout(self.main_layout)
-        self.create_initial_widgets()
+        self.stacked_widget.setCurrentIndex(-1)
         self.setWindowTitle("Modus Auswahl")
-
-    def clear_layout(self, layout):
-        while layout.count():
-            child = layout.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-
-    def add_simulation_to_layout(self, simulation_widget):
-        self.clear_layout(self.main_layout)
-        self.main_layout.addWidget(simulation_widget)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
