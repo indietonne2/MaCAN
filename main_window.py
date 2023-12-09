@@ -1,11 +1,13 @@
 import sys
 import os
 import importlib
-from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QStackedWidget
+import configparser
+from PySide6.QtWidgets import QMainWindow, QLabel, QApplication, QVBoxLayout, QWidget, QComboBox, QStackedWidget, QDialog
 from PySide6.QtGui import QColor, QPixmap, QPainter
 from PySide6.QtCore import Qt
 from config import Config
 from menu_bar import MenuBar
+from gui.emulation_ui import Ui_Dialog
 
 class BackgroundWidget(QWidget):
     def __init__(self, parent=None):
@@ -21,14 +23,19 @@ class BackgroundWidget(QWidget):
         painter.drawPixmap(target_rect, self.pixmap, pixmap_rect)
         painter.end()
 
+class EmulationDialog(QDialog, Ui_Dialog):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.config = Config()
         self.parameter_config = self.config.read_parameter_config()
+        self.selected_mode = self.read_mode_config()
         self.initUI()
-        selected_mode = self.config.read_mode_config()
-        self.handle_mode_selection(selected_mode)
+        self.conditionally_show_emulation_dialog()
 
         # Create an instance of MenuBar and add it to the main window
         self.menu_bar = MenuBar(self)
@@ -44,76 +51,49 @@ class MainWindow(QMainWindow):
         self.main_layout = QVBoxLayout()
         self.background_widget.setLayout(self.main_layout)
 
-        self.create_persistent_widgets()
+        # Create the colored line
+        self.color_line = QLabel(self)
+        self.color_line.setFixedHeight(20)
+        self.update_color_line(self.selected_mode)
+        self.main_layout.addWidget(self.color_line)
 
-        # Bereich für modusspezifische Widgets
-        self.stacked_widget = QStackedWidget(self)
-        self.main_layout.addWidget(self.stacked_widget)
+        # Create the mode dropdown
+        self.mode_dropdown = QComboBox(self)
+        self.mode_dropdown.addItems(self.parameter_config.keys())
+        self.mode_dropdown.setCurrentText(self.selected_mode)
+        self.mode_dropdown.currentTextChanged.connect(self.on_mode_changed)
+        self.main_layout.addWidget(self.mode_dropdown)
 
-    def create_persistent_widgets(self):
-        # Farbbalken
-        self.color_bar = QLabel(self)
-        self.color_bar.setFixedHeight(20)
-        self.color_bar.setAlignment(Qt.AlignCenter)
-        self.main_layout.addWidget(self.color_bar)
+        # Other UI elements setup...
 
-        # ComboBox
-        self.combo_box = QComboBox(self)
-        self.fill_combo_box()
-        self.combo_box.currentTextChanged.connect(self.update_color_bar_and_text)
-        self.main_layout.addWidget(self.combo_box)
+    def read_mode_config(self):
+        config = configparser.ConfigParser()
+        config.read('mode.cfg')
+        # Convert mode to a consistent case, e.g., all lowercase
+        return config['selected mode']['mode'].lower()
 
-    def fill_combo_box(self):
-        for key in self.parameter_config['Modus']:
-            mode_name = key.split('=')[0].strip()
-            self.combo_box.addItem(mode_name.lower())
+    def get_mode_color(self, mode):
+        # Convert mode to the case used in parameter.cfg, e.g., capitalize the first letter
+        mode_formatted = mode.capitalize()
+        return self.parameter_config.get('Modus', mode_formatted, fallback="gray")
 
-    def update_color_bar_and_text(self, text):
-        mode_info = self.parameter_config['Modus'].get(text.upper())
-        if mode_info:
-            color_name, python_file_name = [item.strip() for item in mode_info.split('=')]
-            color_map = {
-                "Rot": QColor(255, 0, 0),
-                "Grün": QColor(0, 255, 0),
-                "Blau": QColor(0, 0, 255),
-                "Orange": QColor(255, 165, 0)
-            }
-            color = color_map.get(color_name, QColor(255, 0, 0))
-            text_color = "white" if self.is_color_dark(color) else "black"
-            self.color_bar.setStyleSheet(f"background-color: {color.name()}; color: {text_color};")
-            self.color_bar.setText(text.lower())
+    def update_color_line(self, mode):
+        color = self.get_mode_color(mode)
+        self.color_line.setStyleSheet(f"background-color: {color};")
+        self.color_line.setText(mode.capitalize())
 
-            self.load_and_execute_python_file(python_file_name)
+    def on_mode_changed(self, mode):
+        self.update_color_line(mode)
+        self.update_mode_config(mode)
+        # Additional logic for mode change...
 
-    def is_color_dark(self, color: QColor):
-        luminance = (0.299 * color.red() + 0.587 * color.green() + 0.114 * color.blue()) / 255
-        return luminance < 0.5
+    def conditionally_show_emulation_dialog(self):
+        # Check if the selected mode is 'Emulation'
+        if self.selected_mode.lower() == 'emulation':
+            self.emulation_dialog = EmulationDialog(self)
+            self.emulation_dialog.show()
 
-    def handle_mode_selection(self, selected_mode):
-        if selected_mode and selected_mode.upper() in self.parameter_config['Modus']:
-            self.combo_box.setCurrentText(selected_mode.lower())
-            self.update_color_bar_and_text(selected_mode.lower())
-        else:
-            first_mode = next(iter(self.parameter_config['Modus']))
-            self.combo_box.setCurrentText(first_mode.lower())
-            self.update_color_bar_and_text(first_mode.lower())
-
-    def load_and_execute_python_file(self, python_file_name):
-        module_name = os.path.splitext(python_file_name)[0]
-        try:
-            module = importlib.import_module(module_name)
-            if hasattr(module, 'SimulationWidget'):
-                simulation_widget = module.SimulationWidget()
-                self.stacked_widget.addWidget(simulation_widget)
-                self.stacked_widget.setCurrentWidget(simulation_widget)
-            self.setWindowTitle(f"Module: {module_name}")
-        except ImportError:
-            print(f"Failed to import module {module_name}.")
-
-
-    def restore_initial_state(self):
-        self.stacked_widget.setCurrentIndex(-1)
-        self.setWindowTitle("Modus Auswahl")
+    # Rest of the MainWindow class methods...
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
