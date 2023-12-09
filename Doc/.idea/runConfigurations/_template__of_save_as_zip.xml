@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="StardustRunConfiguration" factoryName="save-as-zip">
+    <option name="folderPath" value="$PROJECT_DIR$" />
+    <option name="instanceId" value="hi" />
+    <option name="instanceName" value="Help Instance" />
+    <method v="2" />
+  </configuration>
+</component>

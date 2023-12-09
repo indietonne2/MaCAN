@@ -5,32 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2623e18-67f7-4469-b848-ad6bec82d46d" name="Changes" comment="added Riverside Dokumentation">
-      <change afterPath="$PROJECT_DIR$/../Doc/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/.idea/Doc.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/c.list" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/hi.tree" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/completion_procedure.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/completion_procedure_dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/convert_table_to_xml.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/convert_table_to_xml_dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/new_topic_options.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/images/new_topic_options_dark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/topics/Default-topic.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/v.list" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/version.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Doc/Writerside/writerside.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/MaCAN.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/Github.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/Github.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled/.idea/untitled.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../untitled/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Writerside/index.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/macan_class.puml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/macan_sequence.puml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/macan_use_case.puml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Use Case" />
+        <option value="UML Sequence" />
+        <option value="UML Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -75,26 +72,39 @@
   &quot;associatedIndex&quot;: 1
 }</component>
   <component name="ProjectId" id="2ZFkTWXgdGult9VfRg8H4E2DR3C" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Menu&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.ide.settings.new.ui&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultPlantUmlFileTemplate": "UML Class",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "Menu",
+    "last_opened_file_path": "/Users/mbp16/PycharmProjects/MaCAN/wsDoku",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.new.ui"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: [
+  "keyToStringList": {
+    "stardust.markdown.MarkdownSplitEditorSuppressor:keyList": [
     ]
   }
-}</component>
+}]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="CompoundRunConfigurationType">
+      <toRun name="MaCAN" type="StardustRunConfiguration" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="added Riverside Dokumentation" />
     <option name="LAST_COMMIT_MESSAGE" value="added Riverside Dokumentation" />
   </component>

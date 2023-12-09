@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+actor User as "Benutzer"
+usecase "Start application / Anwendung starten" as UC1
+usecase "Select mode / Modus wählen" as UC2
+usecase "Update display / Anzeige aktualisieren" as UC3
+
+User --> UC1
+User --> UC2
+UC2 --> UC3
+@enduml
