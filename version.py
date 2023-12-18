@@ -1,3 +1,3 @@
 app_name = "MaCAN"
-version = "0.6.26"
-author = "Thomas Fischer from indietonne.de"
+version = "0.7.00"
+author = 'Thomas Fischer from indietonne.de'
