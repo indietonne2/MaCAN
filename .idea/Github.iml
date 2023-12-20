@@ -6,8 +6,13 @@
       <excludeFolder url="file://$MODULE_DIR$/pyMaCAN" />
       <excludeFolder url="file://$MODULE_DIR$/pyMaCAN3.12" />
       <excludeFolder url="file://$MODULE_DIR$/python" />
+      <excludeFolder url="file://$MODULE_DIR$/p3.12" />
+      <excludeFolder url="file://$MODULE_DIR$/v" />
+      <excludeFolder url="file://$MODULE_DIR$/v312" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+      <excludeFolder url="file://$MODULE_DIR$/p" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.12 (MaCAN)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

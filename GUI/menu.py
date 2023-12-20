@@ -3,13 +3,12 @@
 # References version information from version.py
 # Adds "Hilfe" action to open Hilfe.html
 
-from PySide6.QtWidgets import QMenuBar, QAction, QMessageBox, QDesktopServices
-from PySide6.QtCore import QUrl
+import PySide6.QtWidgets
+import QUrl
 import os
 from version import app_name, version, author
 
-
-class MenuBar(QMenuBar):
+class MenuBar(PySide6.QtWidgets.QMenuBar):
     def __init__(self, parent=None):
         super(MenuBar, self).__init__(parent)
         self.initUI()
@@ -55,10 +54,9 @@ class MenuBar(QMenuBar):
 
     def show_about(self):
         about_message = f"{app_name}\nVersion: {version}\nAuthor: {author}"
-        QMessageBox.information(self, f"About {app_name}", about_message, QMessageBox.Ok)
+        PySide6.QtWidgets.QMessageBox.information(self, f"About {app_name}", about_message, PySide6.QtWidgets.QMessageBox.Ok)
 
-    @staticmethod
-    def show_hilfe():
+    def show_hilfe(self):
         # Assuming the 'Doc' folder is in the current working directory of the application
         hilfe_path = os.path.join(os.getcwd(), 'Doc', 'Hilfe.html')
         QDesktopServices.openUrl(QUrl.fromLocalFile(hilfe_path))
